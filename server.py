@@ -3,95 +3,27 @@ from flask.globals import session
 from werkzeug.utils import redirect
 
 app= Flask(__name__)
-app.secret_key="secret"
-users=[
-    {
-        "username" : "michael08",
-        "password" : "pass123"
-    },
-      {
-        "username" : "julie27",
-        "password" : "pass456"
-    },
-        {
-        "username" : "alfredo123",
-        "password" : "pass555"
-    }
-      
-      
-]
+app.secret_key="my secret"
 
-todos= {
-    "michael08": [
-        {"todo": "Wash the dishes",
-        "completed": False
-        },
-         {"todo": "Clean the house",
-        "completed": False
-        }
-    ],
-    "julie27": [
-        {"todo": "Go to the gym",
-        "completed": True
-        },
-         {"todo": "Make a birthday cake",
-        "completed": False
-        }
-    ],
-    "alfredo123": [
-        {"todo": "Explain POST method",
-        "completed": False
-        },
-         {"todo": "Explain sessions",
-        "completed": False
-        }
-    ],
-}
-
-@app.route("/login", methods=["GET"])
+@app.route("/", methods=["GET"])
   
-def displayLogin():
-    loginError=""
-    if loginError in session:
-        loginError=session['loginError']
+def counter():
+    if "counter" not in session:
+        session["counter"] = 0
+    else:
+        session['counter'] += 1
     return render_template("index.html")
 
-@app.route("/home", methods=["GET"])
-def displayHome():
-    if 'userName' in session:
-        userName=session['userName']
-        currentUserTodos= todos[userName]
-        print(currentUserTodos)
-    #if session['userName']:
-        #return render_template("home.html")
-    #else:
-        return render_template("home.html", todos=currentUserTodos)
-
-    
-
-@app.route( "/authentication", methods=['POST'] )
-def validateCredentials():
-    userName = request.form['userName']
-    userPassword = request.form['userPassword']
-    identifier = request.form['identifier']
-    print( 'Identifier', identifier )
-    for user in users:
-        if user['username'] == userName and user['password'] == userPassword:
-            session['userName'] = userName
-            if 'loginError' in session:
-                session.pop( 'loginError' )
-            return redirect( '/home' )
-    session['loginError'] = "Wrong credentials provided."
-    return redirect( '/login' )
-
-@app.route("/logout", methods= ['GET'])
-def closeSession():
+@app.route("/destroy_session", methods=["GET"])
+def destroySession():
     session.clear()
-    responseObj= {
-        'message': 'logout successfully'
-    }
-    #return redirect('/login')
-    return responseObj
+    return redirect('/')
+
+@app.route("/add2", methods=["GET"])
+def addbytwo():
+    session["counter"] +=1
+    return redirect('/')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

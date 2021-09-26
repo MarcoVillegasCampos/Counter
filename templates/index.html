@@ -4,37 +4,27 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Counter</title>
     </head>
     <body>
-        <h1>
-            Welcome to the TODOS app 
+        <h1 align="center">
+            Counter
         </h1>
-        <h2>
-            Please provide your credentials to login
+        
+        <h2 align= "center" name='key'>
+            {{session['counter']}} time(s)
         </h2>
-        <form action="/authentication" method="POST">
-            <div>
-                <label for="userName">
-                    Username:
-                </label>
-                <input type="text" id="userName" name="userName" />
-            </div>
-            <div>
-                <label for="userPassword">
-                    Password:
-                </label>
-                <input type="password" id="userPassword" name="userPassword" />
-            </div>
-            <input type="hidden" name="identifier" id="identifier" value="123" />
-            <button type="submit">
-                Login
-            </button>
+
+        <div>
+            <p align="center"><a href="/destroy_session" ><button >Clear Session</button></a></p>
+            <p align="center"><a href="/add2" ><button >Add by two</button></a></p>
+            
+            </a>
+        </div>
+        
+        <input type="text" name="addition" id="addition" align="center">
+ 
         </form>
-        {% if loginError != "": %}
-            <div>
-                {{loginError}}
-            </div>
-        {% endif %}
+     
     </body>
 </html>
