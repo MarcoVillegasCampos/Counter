@@ -1,5 +1,7 @@
+from typing import Counter
 from flask import Flask, render_template, request
 from flask.globals import session
+from flask.wrappers import Request
 from werkzeug.utils import redirect
 
 app= Flask(__name__)
@@ -22,6 +24,15 @@ def destroySession():
 @app.route("/add2", methods=["GET"])
 def addbytwo():
     session["counter"] +=1
+    return redirect('/')
+
+
+@app.route("/add", methods=["POST"])
+def adding():
+    
+    counter=request.form['add']
+    session["counter"] += int(counter)-1
+  
     return redirect('/')
 
 
